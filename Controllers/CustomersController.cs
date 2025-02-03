@@ -20,9 +20,9 @@ namespace NorthwindRestApi.Controllers
                 var asiakkaat = db.Customers.ToList();
                 return Ok(asiakkaat);
             }
-            catch (Exception ex) 
-            { 
-                return BadRequest("Tapahtui virhe. Lue lisää: " +ex.InnerException);
+            catch (Exception ex)
+            {
+                return BadRequest("Tapahtui virhe. Lue lisää: " + ex.InnerException);
             }
         }
 
@@ -51,20 +51,44 @@ namespace NorthwindRestApi.Controllers
 
         //uuden lisääminen
         [HttpPost]
-        public ActionResult AddNew([FromBody]Customer cust)
+        public ActionResult AddNew([FromBody] Customer cust)
         {
             try
             {
                 db.Customers.Add(cust);
                 db.SaveChanges();
-                return Ok("Lisättiin uusi asiakas: "+ cust.CompanyName + " from:" + cust.Country);
+                return Ok("Lisättiin uusi asiakas: " + cust.CompanyName + " from:" + cust.Country);
             }
-            catch (Exception ex) 
-            { 
+            catch (Exception ex)
+            {
                 return BadRequest("Tapahtui virhe. Lue lisää: " + ex.InnerException);
             }
 
         }
 
+        //asiakkaan poistaminen
+        [HttpDelete("{id}")]
+        public ActionResult Delete(string id)
+        {
+            try { 
+            var asiakas = db.Customers.Find(id);
+
+            if (asiakas != null)
+            {
+                db.Customers.Remove(asiakas);
+                db.SaveChanges();
+                return Ok("Asiakas " + asiakas.CompanyName + " poistettiin onnistuneesti.");
+            }
+            else 
+            {
+                return NotFound("Asiakasta id:llä " + id + " ei löytynyt.");
+            }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Tapahtui virhe. Lue lisää: " + ex.InnerException);
+            }
+
+        }
     }
 }
