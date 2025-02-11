@@ -74,8 +74,13 @@ public partial class NorthwindOriginalContext : DbContext
     public virtual DbSet<Tuotesummat> Tuotesummats { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-K092V03\\SQLEXPRESS01; Database=NorthwindOriginal;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+    { 
+        if (!optionsBuilder.IsConfigured) 
+        {
+            return;
+        }
+    }
+        //=> optionsBuilder.UseSqlServer("Data Source=DESKTOP-K092V03\\SQLEXPRESS01; Database=NorthwindOriginal;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
