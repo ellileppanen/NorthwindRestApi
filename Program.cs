@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 
 //dependency injektiolla v‰litetty tietokantatieto kontrollereille
 builder.Services.AddDbContext<NorthwindOriginalContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("paikallinen")
+    builder.Configuration.GetConnectionString("pilvi")
     ));
 
 //cors m‰‰ritys
