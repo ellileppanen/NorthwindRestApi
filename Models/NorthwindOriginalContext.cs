@@ -69,23 +69,14 @@ public partial class NorthwindOriginalContext : DbContext
 
     public virtual DbSet<Territory> Territories { get; set; }
 
-    public virtual DbSet<Tilaussummat> Tilaussummats { get; set; }
-
-    public virtual DbSet<Tuotesummat> Tuotesummats { get; set; }
+    public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    { 
-        if (!optionsBuilder.IsConfigured) 
-        {
-            return;
-        }
-    }
-        //=> optionsBuilder.UseSqlServer("Data Source=DESKTOP-K092V03\\SQLEXPRESS01; Database=NorthwindOriginal;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=srvnorthwindoriginal.database.windows.net;Database=NorthwindOriginal;User Id=duckie;Password=theQueenHasRedPants2;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
         modelBuilder.Entity<AlphabeticalListOfProduct>(entity =>
         {
             entity
@@ -612,26 +603,15 @@ public partial class NorthwindOriginalContext : DbContext
                 .HasConstraintName("FK_Territories_Region");
         });
 
-        modelBuilder.Entity<Tilaussummat>(entity =>
+        modelBuilder.Entity<User>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToView("Tilaussummat");
-
-            entity.Property(e => e.OrderId).HasColumnName("OrderID");
-            entity.Property(e => e.Summa).HasColumnType("money");
-        });
-
-        modelBuilder.Entity<Tuotesummat>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToView("Tuotesummat");
-
-            entity.Property(e => e.ProductId)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ProductID");
-            entity.Property(e => e.Summa).HasColumnType("money");
+            entity.Property(e => e.Email).HasMaxLength(30);
+            entity.Property(e => e.FirstName).HasMaxLength(30);
+            entity.Property(e => e.LastName).HasMaxLength(30);
+            entity.Property(e => e.Password).HasMaxLength(200);
+            entity.Property(e => e.UserName)
+                .HasMaxLength(10)
+                .IsFixedLength();
         });
 
         OnModelCreatingPartial(modelBuilder);
