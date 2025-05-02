@@ -98,15 +98,15 @@ namespace NorthwindRestApi.Controllers
             var tuote = db.Products.Find(id);
             if (tuote != null)
             {
-                tuote.ProductName = tuote.ProductName;
-                tuote.SupplierId = tuote.SupplierId;
-                tuote.CategoryId = tuote.CategoryId;
-                tuote.QuantityPerUnit = tuote.QuantityPerUnit;
-                tuote.UnitPrice = tuote.UnitPrice;
-                tuote.UnitsInStock = tuote.UnitsInStock;
-                tuote.UnitsOnOrder = tuote.UnitsOnOrder;
-                tuote.ReorderLevel = tuote.ReorderLevel;
-                tuote.Discontinued = tuote.Discontinued;
+                tuote.ProductName = product.ProductName;
+                tuote.SupplierId = product.SupplierId;
+                tuote.CategoryId = product.CategoryId;
+                tuote.QuantityPerUnit = product.QuantityPerUnit;
+                tuote.UnitPrice = product.UnitPrice;
+                tuote.UnitsInStock = product.UnitsInStock;
+                tuote.UnitsOnOrder = product.UnitsOnOrder;
+                tuote.ReorderLevel = product.ReorderLevel;
+                tuote.Discontinued = product.Discontinued;
 
                 db.SaveChanges();
                 return Ok("Muokattu tuotetta " + tuote.ProductName);
